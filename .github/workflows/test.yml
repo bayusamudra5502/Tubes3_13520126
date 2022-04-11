@@ -13,6 +13,6 @@ jobs:
         with:
           go-version: 1.18
       - name: Change directory
-        run: cd src/Backend
+        run: cd src/backend
       - name: Running CI
         run: go test -v ./...
