@@ -1,0 +1,18 @@
+name: Check Backend Unit Test
+
+on: push
+
+jobs:
+  test:
+    name: Testing TC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.18
+      - name: Change directory
+        run: cd src/Backend
+      - name: Running CI
+        run: go test -v ./...
