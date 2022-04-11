@@ -14,5 +14,7 @@ jobs:
           go-version: 1.18
       - name: Change directory
         run: cd src/backend
+      - name: Install all dependencies
+        run: go get
       - name: Running CI
         run: go test -v ./...
