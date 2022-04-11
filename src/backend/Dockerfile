@@ -14,4 +14,4 @@ RUN go get
 EXPOSE 8080
 
 # Hot Reload
-CMD CompileDaemon -log-prefix=false -build="go build" -command="./Tubes3_13520128"
+CMD CompileDaemon -log-prefix=false -build="go build -o /usr/bin/server.app" -command="server.app"
