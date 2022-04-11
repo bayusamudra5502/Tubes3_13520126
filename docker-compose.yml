@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./src/backend
+    volumes:
+      - ./src/backend:/app
+    ports:
+      - 8080:80
+    environment:
+      - PORT=80
+    depends_on:
+      - postgres
+    networks:
+      - api_network
+  frontend:
+    build: ./src/frontend
+    volumes:
+      - ./src/frontend:/app
+    ports:
+      - 3000:3000
+    networks:
+      - api_network
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: app-db
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - api_network
+
+networks:
+  api_network:
+    name: api_network
+
+volumes:
+  db:
+    name: stima_dna_data
