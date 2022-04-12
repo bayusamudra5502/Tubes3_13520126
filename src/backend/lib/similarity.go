@@ -1,5 +1,5 @@
 package lib
 
-func similarity(input string, pattern string) int  {
+func Similarity(input string, pattern string) float64  {
 	return 0
 }
