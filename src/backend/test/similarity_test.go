@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/lib"
-
 	"github.com/stretchr/testify/assert"
 )
 
@@ -25,5 +24,7 @@ func TestSimilarity(t *testing.T) {
 		assert.Equal(t, 0.5, lib.Similarity("ACTGA", "ATTT"))
 		assert.Equal(t, 0.0, lib.Similarity("TTTTTTT", "CCCCCC"))
 		assert.Equal(t, 0.4, lib.Similarity("ACT", "ACGCA"))
+		assert.Equal(t, 0.0, lib.Similarity("Aku Anak Sehat", "xyz"))
 	})
+
 }
