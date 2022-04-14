@@ -1,25 +1,7 @@
 package lib
 
-func jumpTableGenerator(str string) (result []int) {
-	result = append(result, 0)
-
-	for i := 1; i < len(str); i++ {
-		start := 0
-		end := i - 1
-
-		for start < end && (str[start] == str[end]) {
-			start++
-			end--
-		}
-
-		result = append(result, start)
-	}
-
-	return result
-}
-
 func Similarity(str, pattern string) float64 {
-	jumpTable := jumpTableGenerator(pattern)
+	jumpTable := KmpTableGenerator(pattern)
 	p := 0
 	highestMatch := 0.0
 
