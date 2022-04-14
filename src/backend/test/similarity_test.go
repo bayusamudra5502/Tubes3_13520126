@@ -20,13 +20,13 @@ func TestSimilarity(t *testing.T) {
 	})
 
 	t.Run("Patially Same", func(t *testing.T) {
-		assert.Equal(t, 0.8, lib.Similarity("TTTTACGA", "ACGAA"))
 		assert.Equal(t, 0.8, lib.Similarity("ACTGAACGATGA", "ACTGG"))
 		assert.Equal(t, 0.5, lib.Similarity("ACTGA", "ATTT"))
 		assert.Equal(t, 0.0, lib.Similarity("TTTTTTT", "CCCCCC"))
 		assert.Equal(t, 0.4, lib.Similarity("ACT", "ACGCA"))
-		assert.Equal(t, 0.0, lib.Similarity("Aku Anak Sehat", "xyz"))
 		assert.Equal(t, 0.8, lib.Similarity("ACGACGA", "ACGAA"))
+		assert.Equal(t, 0.8, lib.Similarity("TTTTACGATT", "ACGAA"))
+		assert.Equal(t, 0.8, lib.Similarity("TTTTACGA", "ACGAA"))
 	})
 
 }
