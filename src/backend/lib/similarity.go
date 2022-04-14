@@ -21,7 +21,6 @@ func Similarity(str, pattern string) float64 {
 			matchNum = p
 			j := p + 1
 
-			
 			for k := i + 1; j < len(pattern) && k < len(str); k++ {
 				if str[k] == pattern[j] {
 					matchNum++
@@ -29,7 +28,6 @@ func Similarity(str, pattern string) float64 {
 				
 				j++
 			}
-			
 			
 			if p == 0 {
 				i++
