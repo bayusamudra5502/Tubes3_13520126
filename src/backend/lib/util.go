@@ -17,3 +17,20 @@ func KmpTableGenerator(str string) (result []int) {
 
 	return result
 }
+
+func BuildLast(pattern string) (result map[byte]int) {
+	result = make(map[byte]int)
+
+	for i := 0; i < len(pattern); i++ {
+		result[pattern[i]] = i
+	}
+
+	return result
+}
+
+func Min(first, second int) int {
+	if first < second {
+		return first
+	}
+	return second
+}
