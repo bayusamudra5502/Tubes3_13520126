@@ -34,3 +34,18 @@ func Min(first, second int) int {
 	}
 	return second
 }
+
+func PrefixFunction(pattern string) []int {
+	prefix := make([]int, len(pattern))
+	for i := 1; i < len(pattern); i++ {
+		border := prefix[i-1]
+		for border > 0 && pattern[i] != pattern[border] {
+			border = prefix[border-1]
+		}
+		if pattern[i] == pattern[border] {
+			border++
+		}
+		prefix[i] = border
+	}
+	return prefix
+}
