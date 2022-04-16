@@ -21,7 +21,11 @@ func BoyerMoore(text, pattern string) int {
 				patternIndex--
 			}
 		} else {
-			lo := last[text[textIndex]]
+			lo, exists := last[text[textIndex]]
+			if !exists {
+				lo = -1
+			}
+
 			textIndex = textIndex + patternLength - Min(patternIndex, 1+lo)
 			patternIndex = patternLength - 1
 		}
