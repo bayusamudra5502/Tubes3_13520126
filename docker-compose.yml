@@ -26,11 +26,11 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: app-db
+      POSTGRES_DB: dnachecker
     volumes:
       - db:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 5433:5432
     networks:
       - api_network
 
