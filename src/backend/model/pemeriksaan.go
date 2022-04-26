@@ -12,3 +12,7 @@ type Pemeriksaan struct {
 	Similarity float64
 	Penyakit Penyakit
 }
+
+func (Pemeriksaan) TableName() string {
+	return "pemeriksaan"
+}

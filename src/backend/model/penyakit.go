@@ -9,3 +9,7 @@ type Penyakit struct {
 	Nama string `gorm:"type:varchar(100)"`
 	DnaSequence string `gorm:"type:text"`
 }
+
+func (Penyakit) TableName() string {
+	return "penyakit"
+}
