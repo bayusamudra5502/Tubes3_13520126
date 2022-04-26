@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func CheckUp(ctx *gin.Context){
+func CheckUp(ctx *gin.Context) {
 	file, err := ctx.FormFile("file")
 	name := ctx.PostForm("name")
 	diseaseId := ctx.PostForm("disease_id")
@@ -22,36 +22,36 @@ func CheckUp(ctx *gin.Context){
 	// Input Item Validation
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"status": "KO",
+			"status":  "KO",
 			"message": "File is required",
-			"data": err,
+			"data":    err,
 		})
 		return
 	}
 
 	if name == "" {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"status": "KO",
+			"status":  "KO",
 			"message": "User name is required",
-			"data": err,
+			"data":    err,
 		})
 		return
 	}
 
 	if algorithm != "KMP" && algorithm != "BOYER" {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"status": "KO",
+			"status":  "KO",
 			"message": "Algorithm is not valid",
-			"data": err,
+			"data":    err,
 		})
 		return
 	}
 
 	if diseaseId == "" {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"status": "KO",
+			"status":  "KO",
 			"message": "Disease id is required",
-			"data": err,
+			"data":    err,
 		})
 		return
 	}
@@ -62,25 +62,25 @@ func CheckUp(ctx *gin.Context){
 	if !isValid {
 		return
 	}
-	
+
 	// Getting disease
 	var disease model.Penyakit
 	err = db.GetDatabase().First(&disease, diseaseId).Error
 
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound){
+		if errors.Is(err, gorm.ErrRecordNotFound) {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"status": "KO",
+				"status":  "KO",
 				"message": "Disease is not found",
-				"data": err,
+				"data":    err,
 			})
 
 			return
-		}else{
+		} else {
 			ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-				"status": "KO",
+				"status":  "KO",
 				"message": "Internal server error",
-				"data": err,
+				"data":    err,
 			})
 
 			return
@@ -109,34 +109,33 @@ func CheckUp(ctx *gin.Context){
 	var duration = stop.Nanosecond() - start.Nanosecond()
 
 	data := model.Pemeriksaan{
-		NamaPasien: name,
+		NamaPasien:     name,
 		SequenceSample: sequence,
-		PenyakitID: disease.ID,
-		Similarity: similarity,
+		PenyakitID:     disease.ID,
+		Similarity:     similarity,
 	}
 
 	err = db.GetDatabase().Create(&data).Error
 
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
-			"status": "KO",
+			"status":  "KO",
 			"message": "Error inserting to database",
-			"data": err,
+			"data":    err,
 		})
 		return
 	}
 
-
 	ctx.JSON(http.StatusOK, gin.H{
-		"status": "OK",
+		"status":  "OK",
 		"message": "Success",
 		"data": gin.H{
-			"duration": duration,
-			"id": data.ID,
+			"duration":     duration,
+			"id":           data.ID,
 			"disease_name": disease.Nama,
-			"disease_id": data.PenyakitID,
-			"is_match": foundIndex != -1,
-			"similarity": similarity,
+			"disease_id":   data.PenyakitID,
+			"is_match":     foundIndex != -1,
+			"similarity":   similarity,
 		},
 	})
 }

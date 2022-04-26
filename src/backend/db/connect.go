@@ -10,7 +10,6 @@ import (
 	"gorm.io/gorm"
 )
 
-
 func Connect() {
 	database_url := os.Getenv("DATABASE_URL")
 	regex := regexp.MustCompile("^postgres://(.+):(.+)@(.+):(.+)/(.+)$")
