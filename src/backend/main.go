@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/controller/pemeriksaan"
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/controller/penyakit"
 	_ "github.com/bayusamudra5502/Tubes3_13520126/src/backend/db"
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,7 @@ func main(){
 	})
 
 	penyakit.PenyakitController(r)
+	pemeriksaan.PemeriksaanController(r)
 
 	r.Run()
 }
