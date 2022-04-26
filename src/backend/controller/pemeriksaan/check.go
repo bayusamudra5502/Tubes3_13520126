@@ -13,7 +13,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func CheckDisease(ctx *gin.Context){
+func CheckUp(ctx *gin.Context){
 	file, err := ctx.FormFile("file")
 	name := ctx.PostForm("name")
 	diseaseId := ctx.PostForm("disease_id")
