@@ -2,6 +2,7 @@ package penyakit
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/db"
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/model"
@@ -9,14 +10,14 @@ import (
 )
 
 func DeleteDisease(ctx *gin.Context) {
-	diseaseId := ctx.Params.ByName("id")
+	diseaseId, err := strconv.Atoi(ctx.Params.ByName("id"))
 
 	// Input Item Validation
-	if diseaseId == "" {
+	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"status":  "KO",
-			"message": "Disease id is required",
-			"data":    nil,
+			"message": "Disease id is required and must be a number",
+			"data":    err,
 		})
 		return
 	}
@@ -39,7 +40,7 @@ func DeleteDisease(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"status":  "KO",
 			"message": "Disease is not found",
-			"data": nil,
+			"data":    nil,
 		})
 
 		return
@@ -49,10 +50,7 @@ func DeleteDisease(ctx *gin.Context) {
 		"status":  "OK",
 		"message": "Success",
 		"data": gin.H{
-			"id":                disease.ID,
-			"name":              disease.Nama,
-			"created_timestamp": disease.CreatedAt,
-			"updated_timestamp": disease.UpdatedAt,
+			"id": diseaseId,
 		},
 	})
 }

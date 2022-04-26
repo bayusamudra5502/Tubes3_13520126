@@ -2,6 +2,7 @@ package pemeriksaan
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/db"
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/model"
@@ -9,14 +10,14 @@ import (
 )
 
 func DeleteCheckupHistory(ctx *gin.Context) {
-	checkId := ctx.Params.ByName("id")
+	checkId, err := strconv.Atoi(ctx.Params.ByName("id"))
 
 	// Input Item Validation
-	if checkId == "" {
+	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"status":  "KO",
-			"message": "Check up history id is required",
-			"data":    nil,
+			"message": "Check up history id is required and must be a number",
+			"data":    err,
 		})
 		return
 	}
@@ -49,14 +50,7 @@ func DeleteCheckupHistory(ctx *gin.Context) {
 		"status":  "OK",
 		"message": "Success",
 		"data": gin.H{
-			"id":                checkupHistory.ID,
-			"name":              checkupHistory.NamaPasien,
-			"similarity":        checkupHistory.Similarity,
-			"disease_id":        checkupHistory.PenyakitID,
-			"disease_name":      checkupHistory.Penyakit.Nama,
-			"is_match":          checkupHistory.Similarity == 1.0,
-			"created_timestamp": checkupHistory.CreatedAt,
-			"updated_timestamp": checkupHistory.UpdatedAt,
+			"id": checkId,
 		},
 	})
 }

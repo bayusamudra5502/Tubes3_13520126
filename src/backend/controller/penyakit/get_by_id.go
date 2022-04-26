@@ -18,7 +18,7 @@ func GetDiseaseById(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"status":  "KO",
 			"message": "Disease id is required",
-			"data": nil,
+			"data":    nil,
 		})
 		return
 	}
@@ -51,8 +51,9 @@ func GetDiseaseById(ctx *gin.Context) {
 		"status":  "OK",
 		"message": "Success",
 		"data": gin.H{
-			"id": 				 disease.ID,
-			"name": 			 disease.Nama,
+			"id":                disease.ID,
+			"name":              disease.Nama,
+			"sequence":          disease.DnaSequence,
 			"created_timestamp": disease.CreatedAt,
 			"updated_timestamp": disease.UpdatedAt,
 		},
