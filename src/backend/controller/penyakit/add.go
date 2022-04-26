@@ -83,7 +83,7 @@ func AddPenyakit(c *gin.Context){
 		DnaSequence: string(data),
 	}
 
-	result := db.DB.Create(&record)
+	result := db.GetDatabase().Create(&record)
 
 	if result.Error != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
