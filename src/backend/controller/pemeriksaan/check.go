@@ -3,6 +3,7 @@ package pemeriksaan
 import (
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/controller"
 	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/db"
@@ -88,6 +89,7 @@ func CheckDisease(ctx *gin.Context){
 
 	var similarity float64
 	var foundIndex int
+	var start time.Time = time.Now()
 
 	// Checking
 	if algorithm == "KMP" {
@@ -102,6 +104,9 @@ func CheckDisease(ctx *gin.Context){
 	} else {
 		similarity = 1.0
 	}
+
+	var stop time.Time = time.Now()
+	var duration = stop.Nanosecond() - start.Nanosecond()
 
 	data := model.Pemeriksaan{
 		NamaPasien: name,
@@ -121,10 +126,12 @@ func CheckDisease(ctx *gin.Context){
 		return
 	}
 
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"status": "OK",
 		"message": "Success",
 		"data": gin.H{
+			"duration": duration,
 			"id": data.ID,
 			"disease_name": disease.Nama,
 			"disease_id": data.PenyakitID,
