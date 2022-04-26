@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/bayusamudra5502/Tubes3_13520126/src/backend/controller/penyakit"
 	_ "github.com/bayusamudra5502/Tubes3_13520126/src/backend/db"
 	"github.com/gin-gonic/gin"
 	env "github.com/joho/godotenv"
@@ -17,6 +18,8 @@ func main(){
 			"message": "success",
 		})
 	})
+
+	penyakit.PenyakitController(r)
 
 	r.Run()
 }
