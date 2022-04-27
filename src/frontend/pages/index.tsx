@@ -4,7 +4,6 @@ import Link from "next/link";
 import virus from "../public/virus.png"
 
 const Home: NextPage = () => {
-  console.dir(process.env)
   return (
     <div className="bg-white py-4 px-6 rounded">
       <div>

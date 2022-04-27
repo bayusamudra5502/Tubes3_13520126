@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import IPenyakit from "../model/penyakit";
 
 export default function diseases() {
+  const [data, setData] = useState<IPenyakit[]>([]);
+
   return <div className="bg-white py-4 px-6 rounded">
     <h1>Daftar Penyakit</h1>
     <div>
