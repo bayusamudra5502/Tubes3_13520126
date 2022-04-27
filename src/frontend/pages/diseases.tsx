@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import IPenyakit from "../model/penyakit";
 
-export default function diseases() {
+export default function Diseases() {
   const [data, setData] = useState<IPenyakit[]>([]);
 
   return <div className="bg-white py-4 px-6 rounded">
@@ -16,7 +16,6 @@ export default function diseases() {
           </th>
         </thead>
         <tbody>
-
         </tbody>
       </table>
     </div>
