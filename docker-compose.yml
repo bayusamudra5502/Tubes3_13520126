@@ -16,6 +16,8 @@ services:
       - api_network
   frontend:
     build: ./src/frontend
+    environment:
+      - BACKEND_URL=localhost:8080
     volumes:
       - ./src/frontend:/app
     ports:

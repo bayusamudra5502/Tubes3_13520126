@@ -28,11 +28,13 @@ func GetCheckupHistory(ctx *gin.Context) {
 
 	for _, i := range result {
 		data = append(data, gin.H{
-			"id":                i.ID,
-			"name":              i.NamaPasien,
-			"similarity":        i.Similarity,
-			"disease_id":        i.PenyakitID,
-			"disease_name":      i.Penyakit.Nama,
+			"id":         i.ID,
+			"name":       i.NamaPasien,
+			"similarity": i.Similarity,
+			"disease": gin.H{
+				"id":   i.PenyakitID,
+				"name": i.Penyakit.Nama,
+			},
 			"is_match":          i.Similarity == 1.0,
 			"created_timestamp": i.CreatedAt,
 			"updated_timestamp": i.UpdatedAt,
