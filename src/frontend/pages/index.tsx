@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         <div className="mb-5 mt-4 flex align-middle justify-center">
           <Image src={virus} width="150px" height="150px"></Image>
         </div>
-        <h1 className="text-3xl mb-2">Disease Detector</h1>
+        <h1>Disease Detector</h1>
         <p className="font-bold">Menu Utama</p>
         <div className="flex flex-col">
           <Link href="/diseases">
