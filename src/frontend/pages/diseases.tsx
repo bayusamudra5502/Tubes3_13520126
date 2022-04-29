@@ -16,7 +16,6 @@ export default function App() {
   return (
     <div className="App">
       <h1>Table Urutan Hasil Prediksi</h1>
-
       <Table rows={rows} columns={columns} />
     </div>
   )
