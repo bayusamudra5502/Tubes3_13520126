@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "isomorphic-fetch": "^3.0.0",
+    "match-sorter": "^6.3.1",
+    "promise-polyfill": "8.2.3"
+  }
+}
