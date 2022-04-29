@@ -1,26 +1,28 @@
-import React, { useState } from 'react'
-import Axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import axios, { type AxiosError } from 'axios'
+import ICheckUp from '../model/history';
 
 export default function history() {
   const [input, setInput] = useState('');
-  const [predictionList, setPredictionList] = useState([]);
+  const [predictionList, setPredictionList] = useState<ICheckUp[]>([]);
 
-  const getDetailPrediction = (e) => {
-    e.preventDefault();
-    Axios.post(`${process.env.REACT_APP_DNA_API}/get-detailprediction`, {
-      input: input
-    }).then((response) => {
-      let index = 1;
-      for (let i = 0; i < response.data.length; i++) {
-        response.data[i].index = index;
-        index++;
+  const getDetailPrediction = async () => {
+    const { data } = await axios.get(`http://localhost:8080/check`)
+
+    setPredictionList(data.data.data.map((rec: ICheckUp) => {
+      return {
+        ...rec,
+        created_timestamp: new Date(rec.created_timestamp)
       }
-      setPredictionList(response.data)
-    })
+    }))
   }
 
+  useEffect(() => {
+    getDetailPrediction()
+  }, [])
+
   return (
-    <div id="tesDNA">
+    <div id="tesDNA" className='w-[80vw]'>
       <h3> Detail Prediksi DNA </h3>
       <input type='text' placeholder='Input tanggal atau nama penyakit'
         onChange={(e) => {
@@ -29,17 +31,21 @@ export default function history() {
       />
       <button onClick={getDetailPrediction}>Process</button>
       <h3>Hasil</h3>
-      <div>
-        {predictionList.map((val, key) => {
+      <div className='w-full'>
+        {predictionList.map((val, idx) => {
           return (
-            <div className='flex-row ContainerBody smallheight'>
-              <p>{val.index}.</p>
-              <p className='margin-left-4'>{val.TanggalPrediksi} -</p>
-              <p className='margin-left-4'>{val.NamaPasien} -</p>
-              <p className='margin-left-4'>{val.PenyakitPrediksi} -</p>
-              <p className='margin-left-4'>{val.TingkatKemiripan}% -</p>
-              {val.Status == 1 && <p className='margin-left-4'>True</p>}
-              {val.Status == 0 && <p className='margin-left-4'>False</p>}
+            <div className='flex-row ContainerBody w-full'>
+              <p>{idx + 1}.</p>
+              <p className='margin-left-4'>{
+                new Intl.DateTimeFormat("id", {
+                  dateStyle: "long"
+                }).format(val.created_timestamp)
+              }</p>
+              <p className='margin-left-4'>{val.name} -</p>
+              <p className='margin-left-4'>{val.disease.name} -</p>
+              <p className='margin-left-4'>{val.similarity}% -</p>
+              {val.is_match ? <p className='margin-left-4'>True</p>
+                : <p className='margin-left-4'>False</p>}
             </div>
           )
         })}

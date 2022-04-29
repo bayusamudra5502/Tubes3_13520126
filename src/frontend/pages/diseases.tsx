@@ -1,43 +1,39 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
+import axios, { AxiosError } from 'axios';
+
+interface IHasilTes {
+  duration: number,
+  id: number,
+  disease_name: string,
+  disease_id: number,
+  is_match: boolean,
+  similarity: number
+}
 
 export default function disease() {
   const [inputName, setInputName] = useState('');
-  const [inputFile, setInputFile] = useState();
-  const [inputFileName, setInputFileName] = useState('');
+  const [inputFile, setInputFile] = useState<File | null>(null);
+  const [status, setStatus] = useState(null);
   const [inputPenyakit, setInputPenyakit] = useState('');
 
-  const [hasilTes, setHasilTes] = useState([]);
+  const [hasilTes, setHasilTes] = useState<IHasilTes | null>(null);
 
-  const getDiseasePrediction = (e: any) => {
-
-    console.log("Getting data...");
+  const getDiseasePrediction = async (e: any) => {
     e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append('file', inputFile!);
+      formData.append('name', inputName);
+      formData.append('disease_id', inputPenyakit);
 
-    const formData = new FormData();
-    formData.append('file', inputFile!);
-    formData.append('inputName', inputName);
-    formData.append('inputPenyakit', inputPenyakit);
-    formData.append('tanggal', new Date().toLocaleString().split(" ")[0]);
+      const { data } = await axios.post(`http://localhost:8080/check`, formData)
+      setHasilTes(data.data)
 
-    if (inputName !== "") {
-      const s = inputFileName.split('.')
-      if (s[s.length - 1] == "txt") {
-        Axios.post(`${process.env.REACT_APP_DNA_API}/get-diseaseprediction`, formData)
-        .then((response) => {
-          setHasilTes(response.data)
-          console.log(hasilTes)
-        })
-      } else {
-        let arr = [{Status:-5}]
-        setHasilTes(arr)
+    } catch (err) {
+      if (err instanceof AxiosError) {
+
       }
-        
-    } else {
-      let arr = [{Status:-4}]
-      setHasilTes(arr)
     }
-    console.log("selesai");
   }
 
   return (
@@ -45,65 +41,49 @@ export default function disease() {
       <div id="tesDNA">
         <div>
           <h3> Tes DNA </h3>
-          <div className = "column side">
+          <div className="column side">
             <p>Username : </p>
-            <input className="inputBox" type='text' placeholder='Nama pengguna...' required 
-            onChange={(e) => {
-              setInputName(e.target.value)
-            }}></input>
-          </div>
-          <div className = "column middle">
-            <p>Sequence DNA :</p>
-              <input className="inputBox" type="file" accept=".txt" required
+            <input className="inputBox" type='text' placeholder='Nama pengguna...' required
               onChange={(e) => {
-                setInputFile(e.target.files[0])
-                setInputFileName(e.target.files[0].name)
+                setInputName(e.target.value)
               }}></input>
           </div>
-          <div className = "column side">
+          <div className="column middle">
+            <p>Sequence DNA :</p>
+            <input className="inputBox" type="file" accept=".txt" required
+              onChange={(e) => {
+                if (e.target.files) {
+                  setInputFile(e.target.files[0])
+                }
+              }}></input>
+          </div>
+          <div className="column side">
             <p>Disease Prediction :</p>
-            <input className="inputBox" type='text' placeholder='Nama Penyakit...' required
-            onChange={(e) => {
-              setInputPenyakit(e.target.value)
-            }}></input>
+            <input className="inputBox" type='text' placeholder='ID Penyakit' required
+              onChange={(e) => {
+                setInputPenyakit(e.target.value)
+              }}></input>
           </div>
           <div>
             <button onClick={getDiseasePrediction}>Submit</button>
           </div>
         </div>
         <div id="hasilTes">
-          <h3> Hasil </h3>
-          {hasilTes.map((val, key) => {
-            return (
+          <h3> Hasil Pemeriksaan Terbaru </h3>
+          <div>
+            {(!status) ?
               <div>
-              {(val.Status === 0 || val.Status === 1)&&
-                 <div>
-                <p className="Same"> {val.TanggalPrediksi} -</p>
-                <p className="Same">&nbsp; {val.NamaPasien} -</p>
-                <p className="Same">&nbsp; {val.TingkatKemiripan}% -</p>
-                <p className="Same">&nbsp; {val.PenyakitPrediksi} -</p>
-                {val.Status == 1 && <p className="Same">&nbsp; True</p>}
-                {val.Status == 0 && <p className="Same">&nbsp; False</p>}
-                </div>
-              } 
-              {val.Status === -1 &&
-                <p className="Same">DNA Not Found!</p>
-              }
-              {val.Status === -2 &&
-                <p className="Same">Disease Not Found!</p>
-              }
-              {val.Status === -3 &&
-                <p className="Same">Disease Not Found!</p>
-              }
-              {val.Status === -4 &&
-                <p className="Same">Name must be filled!</p>
-              }
-              {val.Status === -5 &&
-                <p className="Same">Please upload file format .txt!</p>
-              }
+                <p className="Same"> {hasilTes?.id} -</p>
+                <p className="Same">&nbsp; {inputName} -</p>
+                <p className="Same">&nbsp; {hasilTes?.similarity! * 100}% -</p>
+                <p className="Same">&nbsp; {hasilTes?.disease_name} (ID {hasilTes?.disease_id}) -</p>
+                {hasilTes?.is_match ? <p className="Same">&nbsp; True</p> : <p className="Same">&nbsp; False</p>}
               </div>
-            )
-          })}
+              :
+              <p className="Same">DNA Not Found!</p>
+            }
+          </div>
+
         </div>
       </div>
     </div>
