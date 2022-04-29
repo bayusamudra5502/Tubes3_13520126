@@ -9,13 +9,13 @@ export default function disease() {
 
   const [hasilTes, setHasilTes] = useState([]);
 
-  const getDiseasePrediction = (e) => {
+  const getDiseasePrediction = (e: any) => {
 
     console.log("Getting data...");
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('file', inputFile);
+    formData.append('file', inputFile!);
     formData.append('inputName', inputName);
     formData.append('inputPenyakit', inputPenyakit);
     formData.append('tanggal', new Date().toLocaleString().split(" ")[0]);

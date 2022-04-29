@@ -1,3 +1,8 @@
+package lib
+
+import "regexp"
+import "fmt"
+
 func max(a int, b int) int{
 	if a > b {
 		return a;
