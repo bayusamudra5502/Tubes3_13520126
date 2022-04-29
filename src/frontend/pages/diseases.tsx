@@ -10,7 +10,7 @@ export default function App() {
     { accessor: 'Nama_penyakit', label: 'Nama penyakit' },
     { accessor: 'Tanggal_pemeriksaan', label: 'Tanggal pemeriksaan' },
     { accessor: 'Similarity', label: 'Similarity' },
-    { accessor: 'Kebenaran', label: 'Kebenaran', format: (value) => (value ? 'True' : 'False') },
+    { accessor: 'Kebenaran', label: 'Kebenaran', format: (value: any) => (value ? 'True' : 'False') },
   ]
   const rows = data;
   return (

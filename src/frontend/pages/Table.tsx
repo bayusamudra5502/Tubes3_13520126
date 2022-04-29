@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { sortRows, filterRows, paginateRows } from './helpers'
 import { Pagination } from './Pagination'
 
-export const Table = ({ columns, rows }) => {
+export const Table = ({ columns, rows }: any) => {
   const [activePage, setActivePage] = useState(1)
   const [filters, setFilters] = useState({})
   const [sort, setSort] = useState({ order: 'asc', orderBy: 'id' })
@@ -15,7 +15,7 @@ export const Table = ({ columns, rows }) => {
   const count = filteredRows.length
   const totalPages = Math.ceil(count / rowsPerPage)
 
-  const handleSearch = (value, accessor) => {
+  const handleSearch = (value: any, accessor: any) => {
     setActivePage(1)
 
     if (value) {
@@ -52,7 +52,7 @@ export const Table = ({ columns, rows }) => {
       <table>
         <thead>
           <tr>
-            {columns.map((column) => {
+            {columns.map((column: any) => {
               const sortIcon = () => {
                 if (column.accessor === sort.orderBy) {
                   if (sort.order === 'asc') {
@@ -91,7 +91,7 @@ export const Table = ({ columns, rows }) => {
           {calculatedRows.map((row) => {
             return (
               <tr key={row.id}>
-                {columns.map((column) => {
+                {columns.map((column: any) => {
                   if (column.format) {
                     return <td key={column.accessor}>{column.format(row[column.accessor])}</td>
                   }
