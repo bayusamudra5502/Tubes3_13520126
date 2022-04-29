@@ -1,136 +1,72 @@
 import React, { useState } from 'react';
-import Axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export default function AddDisease() {
   const [inputName, setInputName] = useState('');
-  const [inputFile, setInputFile] = useState();
-  const [inputFileName, setInputFileName] = useState('');
+  const [inputFile, setInputFile] = useState<File | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const AddDisease = async (e: any) => {
-    console.log("Getting data...");
     e.preventDefault();
+    try {
+      const payload = new FormData();
+      payload.append("name", inputName);
+      payload.append("file", inputFile!);
 
-    const formData = new FormData();
-    formData.append('nama', inputName)
-    formData.append('file', inputFile!);
-
-    if (inputName != "") {
-      const s = inputFileName.split('.')
-      if (s[s.length - 1] == "txt") {
-        try {
-          const {data} = await Axios.post("http://localhost:8080/disease", formData)
+      await axios.post(`http://localhost:8080/disease`, payload)
+      setSubmitted(true);
+      resetData()
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response?.status == 400) {
+          alert(`Terjadi Error : ${err.response.data.message}`)
+        } else {
+          alert(`Terjadi kesalahan pada server`)
         }
-        catch (err) {
+      }
+    };
+  }
 
-        };
-        setSubmitted(true);
-      }
-      }
-    }
+  function resetData() {
+    setInputName("")
   }
 
   return (
     <div className="bg-white py-4 px-6 rounded">
-    { submitted? (
-      <div> 
-        <h4>Penyakit berhasil ditambahkan</h4>
-        <button onClick={this.reset}>OK</button>
-      </div>
-    ) : (
-    <div>
-      <h1 className="font-bold flex align-middle justify-center">Tambah Penyakit</h1>
-      <form>
-        <div className="flex flex-col">
-          <br></br>
-          <p>Nama Penyakit</p>
-          <input type="text" id="name" name="name" onChange={this.onChangeName}></input>
-          <p>Sequence DNA</p>
-          <input type="file" id="sequence" name="file" onChange={this.onChangeFile}></input>
-          <br></br>
-          <input className="p-3 w-full border-black border-2 my-2 rounded hover:text-white hover:bg-cyan-pallete transition-all ease-in-out" onClick={this.onSubmit}></input>
+      {submitted ? (
+        <div>
+          <h4>Penyakit berhasil ditambahkan</h4>
+          <button
+            className='w-[100%] p-2 border-2 border-black mt-3'
+            onClick={() => {
+              resetData()
+              setSubmitted(false)
+            }}>OK</button>
         </div>
-      </form>
-    </div>
-    )}
-  </div>
-  )
-
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      name: "",
-      file:null,
-      submitted: false
-    }
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeFile = this.onChangeFile.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.reset = this.reset.bind(this);
-  }
-
-  onChangeName(e) {
-    this.setState({name: e.target.value});
-  }
-
-  onChangeFile(e) {
-    this.setState({file: e.target.files[0]})
-  }
-
-  onSubmit() {
-    const formData = new FormData();
-    formData.append("name", this.state.name);
-    formData.append("file", this.state.file);
-    console.log(formData);
-    axios.post("http://localhost:8080/disease", formData, {
-      headers: {
-        'Content-Type' : 'multipart/form-data',
-        'Access-Control-Allow-Origin' : '*'
-      }
-    }).then((response: any) => {
-      console.log(response);
-    }
-    );
-    this.setState({submitted: true});
-  }
-
-  reset() {
-    this.setState( {
-      name: "",
-      file: null,
-      submitted: false
-    });
-  }
-
-  render() {
-    const { submitted } = this.state;
-    return (
-      <div className="bg-white py-4 px-6 rounded">
-        { submitted? (
-          <div> 
-            <h4>Penyakit berhasil ditambahkan</h4>
-            <button onClick={this.reset}>OK</button>
-          </div>
-        ) : (
+      ) : (
         <div>
           <h1 className="font-bold flex align-middle justify-center">Tambah Penyakit</h1>
-          <form>
+          <form onSubmit={AddDisease}>
             <div className="flex flex-col">
               <br></br>
               <p>Nama Penyakit</p>
-              <input type="text" id="name" name="name" onChange={this.onChangeName}></input>
+              <input className='p-2 border-2 border-black mb-2' required placeholder='Nama Penyakit' type="text" name="name" value={inputName} onChange={(e) => setInputName(e.target.value)}></input>
               <p>Sequence DNA</p>
-              <input type="file" id="sequence" name="file" onChange={this.onChangeFile}></input>
+              <input required type="file" name="file" onChange={(e) => {
+                if (e.target.files) {
+                  setInputFile(e.target.files[0])
+                } else {
+                  setInputFile(null)
+                }
+              }
+              }></input>
               <br></br>
-              <input className="p-3 w-full border-black border-2 my-2 rounded hover:text-white hover:bg-cyan-pallete transition-all ease-in-out" onClick={this.onSubmit}></input>
+              <button className="p-3 w-full border-black border-2 my-2 rounded hover:text-white hover:bg-cyan-pallete transition-all ease-in-out">Submit</button>
             </div>
           </form>
         </div>
-        )}
-      </div>
-    )
-  }
+      )}
+    </div>
+  )
 
-  
 }
