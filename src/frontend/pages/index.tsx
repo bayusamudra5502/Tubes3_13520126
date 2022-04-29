@@ -14,6 +14,11 @@ const Home: NextPage = () => {
         <h1>Disease Detector</h1>
         <p className="font-bold flex align-middle justify-center">Menu Utama</p>
         <div className="flex flex-col">
+          <Link href="/disease">
+            <button className="p-3 w-full border-black border-2 my-2 rounded hover:text-white hover:bg-cyan-pallete transition-all ease-in-out">
+              Tambah Penyakit
+            </button>
+          </Link>
           <Link href="/diseases">
             <button className="p-3 w-full border-black border-2 my-2 rounded hover:text-white hover:bg-cyan-pallete transition-all ease-in-out">
               Daftar Penyakit
