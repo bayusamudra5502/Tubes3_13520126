@@ -95,3 +95,42 @@ clear: both;
   
 
 }
+
+#uploadSequenceForm > input[type='file'] { 
+  font-size: 0px;
+
+}
+#uploadSequenceForm > ::file-selector-button { 
+ font-size: 1rem;
+
+}
+
+::placeholder {
+ color:red;
+ opacity: 1;
+ }
+
+#fileChosen {
+  font-size: 0.8rem;
+}
+
+.ContainerBody {
+  position: relative;
+  width: 60%;
+  height: 400px;
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  background-color: white;
+  border: 5px solid lightblue;
+  border-radius: 32px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.smallheight {
+  height: 50px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

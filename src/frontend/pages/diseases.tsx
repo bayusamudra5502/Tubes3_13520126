@@ -46,14 +46,14 @@ export default function disease() {
         <div>
           <h3> Tes DNA </h3>
           <div className = "column side">
-            <p>Nama Penguna:</p>
+            <p>Username : </p>
             <input className="inputBox" type='text' placeholder='Nama pengguna...' required 
             onChange={(e) => {
               setInputName(e.target.value)
             }}></input>
           </div>
           <div className = "column middle">
-            <p>Sequence DNA:</p>
+            <p>Sequence DNA :</p>
               <input className="inputBox" type="file" accept=".txt" required
               onChange={(e) => {
                 setInputFile(e.target.files[0])
@@ -61,7 +61,7 @@ export default function disease() {
               }}></input>
           </div>
           <div className = "column side">
-            <p>Prediksi Penyakit:</p>
+            <p>Disease Prediction :</p>
             <input className="inputBox" type='text' placeholder='Nama Penyakit...' required
             onChange={(e) => {
               setInputPenyakit(e.target.value)
@@ -87,19 +87,19 @@ export default function disease() {
                 </div>
               } 
               {val.Status === -1 &&
-                <p className="Same">DNA Tidak Valid!</p>
+                <p className="Same">DNA Not Found!</p>
               }
               {val.Status === -2 &&
-                <p className="Same">Penyakit Tidak Ditemukan</p>
+                <p className="Same">Disease Not Found!</p>
               }
               {val.Status === -3 &&
-                <p className="Same">Penyakit Tidak Ditemukan</p>
+                <p className="Same">Disease Not Found!</p>
               }
               {val.Status === -4 &&
-                <p className="Same">Nama Tidak Boleh Kosong</p>
+                <p className="Same">Name must be filled!</p>
               }
               {val.Status === -5 &&
-                <p className="Same">File harus dengan format .txt</p>
+                <p className="Same">Please upload file format .txt!</p>
               }
               </div>
             )

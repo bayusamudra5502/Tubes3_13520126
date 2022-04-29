@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react"
-import "./SubmitButton/SubmitButton"
-import SubmitButton from "./SubmitButton/SubmitButton"
-import InputBoxPenyakit from "./InputBoxPenyakit/InputBoxPenyakit"
-import "./Container.css"
-import UploadSequence from "./UploadSequence/UploadSequence"
+import SubmitButton from "./SubmitButton";
+import InputBoxPenyakit from "./InputBoxPenyakit";
+import UploadSequence from "./UploadSequence";
 
 const Container = () => {
     const [fileValid, setfileValid] = useState(false)

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import "./InputBoxPenyakit.css"
 
 const InputBoxPenyakit = (props) => {
     const setHandler = () => {
