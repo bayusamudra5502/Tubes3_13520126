@@ -12,12 +12,11 @@ import (
 func main() {
 	env.Load()
 
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:    []string{"*"},
-		AllowMethods:    []string{"*"},
-		AllowHeaders:    []string{"*"},
+		AllowMethods:    []string{"GET", "POST", "PUT", "OPTIONS", "DELETE"},
 		AllowAllOrigins: true,
 	}))
 

@@ -1,46 +1,46 @@
 package lib
 
-import "regexp"
-import "fmt"
+import (
+	"fmt"
+	"regexp"
+)
 
-func max(a int, b int) int{
+func max(a int, b int) int {
 	if a > b {
-		return a;
+		return a
 	} else {
-		return b;
+		return b
 	}
 }
-
 
 func Lcs(str1 string, str2 string) int {
 	m := len(str1)
 	n := len(str2)
-	L := make([][]int, m+1)   
-	
+	L := make([][]int, m+1)
+
 	result := 0
-	for i := 0; i < m+1; i ++ {
-		L[i] = make([]int, n+1)  
+	for i := 0; i < m+1; i++ {
+		L[i] = make([]int, n+1)
 		for j := 0; j < n+1; j++ {
 			if i == 0 || j == 0 {
-				L[i][j] = 0;
+				L[i][j] = 0
 			} else if str1[i-1] == str2[j-1] {
 				L[i][j] = L[i-1][j-1] + 1
-				result = max(result,L[i][j]);
+				result = max(result, L[i][j])
 			} else {
-				L[i][j] = 0;
+				L[i][j] = 0
 			}
 		}
 	}
 
-	var percentage float64;
-	percentage = float64(result) / float64(n)
+	percentage := float64(result) / float64(n)
 
-	return int(percentage * 100);
+	return int(percentage * 100)
 }
 
 func Regex(str1 string) bool {
 
-	if (len(str1) == 0) {
+	if len(str1) == 0 {
 		return false
 	}
 
@@ -50,7 +50,7 @@ func Regex(str1 string) bool {
 		fmt.Println(err.Error())
 	}
 
-	return regex.MatchString(str1) 
+	return regex.MatchString(str1)
 }
 
 func RegexSearch(str1 string, str2 string) bool {
@@ -61,7 +61,7 @@ func RegexSearch(str1 string, str2 string) bool {
 		fmt.Println(err.Error())
 	}
 
-	return regex.MatchString(str2) 
+	return regex.MatchString(str2)
 }
 
 func RegexTanggal(str1 string) bool {
@@ -72,5 +72,5 @@ func RegexTanggal(str1 string) bool {
 		fmt.Println(err.Error())
 	}
 
-	return regex.MatchString(str1) 
+	return regex.MatchString(str1)
 }
